@@ -1,4 +1,4 @@
-<img src="interface.jpg" width="128"/>
+<img src="interface.jpg" width="303"/>
 
 Прошивки модулей конструктора TSCINBUNY ZYC0076.
 
