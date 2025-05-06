@@ -1,4 +1,5 @@
-![screenshot](interface.jpg)
+<img src="interface.jpg" width="128"/>
+
 Прошивки модулей конструктора TSCINBUNY ZYC0076.
 
 Исправлено:
