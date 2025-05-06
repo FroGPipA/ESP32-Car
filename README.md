@@ -1,3 +1,4 @@
+![screenshot](interface.jpg)
 Прошивки модулей конструктора TSCINBUNY ZYC0076.
 
 Исправлено:
