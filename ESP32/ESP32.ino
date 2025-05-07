@@ -24,8 +24,8 @@
 //#define CAMERA_MODEL_DFRobot_Romeo_ESP32S3 // Has PSRAM
 #include "camera_pins.h"
 
-const char *ssid = "*******";		   // Enter SSID WIFI Name
-const char *password = "********"; // Enter WIFI Password
+const char *ssid = "**********";		   // Enter SSID WIFI Name
+const char *password = "**********"; // Enter WIFI Password
 
 // GPIO Setting
 int gpLed = 4; // Light

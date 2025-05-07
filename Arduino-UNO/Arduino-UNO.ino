@@ -29,7 +29,7 @@ const int Bottom_Left   = 129;                              // Lower left mobile
 const int Top_Right     = 72;                               // Upper right mobile
 const int Bottom_Right  = 34;                               // The lower right move
 const int Stop          = 0;                                // stop
-const int Contrarotate  = 172;                              // Counterclockwise rotation
+const int Counterclockwise  = 172;                              // Counterclockwise rotation
 const int Clockwise     = 83;                               // Rotate clockwise
 const int Moedl1        = 25;                               // model1
 const int Moedl2        = 26;                               // model2
@@ -132,6 +132,9 @@ void model1_func(byte orders)
     case Bottom_Right:
         Motor(Bottom_Right, 180);
         break;
+    case Counterclockwise:
+        Motor(Counterclockwise, 180);
+        break;
     case Clockwise:
         Motor(Clockwise, 180);
         break;
@@ -205,7 +208,7 @@ void model2_func()      // OA
               if(model_var != 1)
                 return ;
             }
-            Motor(Contrarotate, 250); 
+            Motor(Counterclockwise, 250); 
             for(int i = 0;i < 500;i++){
               delay(1);
               RXpack_func();
@@ -228,7 +231,7 @@ void model2_func()      // OA
               if(model_var != 1)
                 return ;
             }
-            Motor(Contrarotate, 250);
+            Motor(Counterclockwise, 250);
             for(int i = 0;i < 500;i++){
               delay(1);
               RXpack_func();
@@ -321,11 +324,11 @@ void model4_func()      // tracking model
     }
     else if (Left_Tra_Value >= Black_Line && Center_Tra_Value >= Black_Line && Right_Tra_Value < Black_Line)
     {
-        Motor(Contrarotate, 220);
+        Motor(Counterclockwise, 220);
     }
     else if (Left_Tra_Value >= Black_Line && Center_Tra_Value < Black_Line && Right_Tra_Value < Black_Line)
     {
-        Motor(Contrarotate, 250);
+        Motor(Counterclockwise, 250);
     }
     else if (Left_Tra_Value < Black_Line && Center_Tra_Value < Black_Line && Right_Tra_Value >= Black_Line)
     {
@@ -410,60 +413,6 @@ void RXpack_func()  //Receive data
                 {
                     model_var = 3;
                 }
-                //////////////////////////////
-                // switch (RX_package[1])
-                // {
-                // case Stop:
-                //     Serial.println("Stop");
-                //     break;
-                // case Forward:
-                //     Serial.println("Forward");
-                //     break;
-                // case Backward:
-                //     Serial.println("Backward");
-                //     break;
-                // case Turn_Left:
-                //     Serial.println("Turn_Left");
-                //     break;
-                // case Turn_Right:
-                //     Serial.println("Turn_Right");
-                //     break;
-                // case Top_Left:
-                //     Serial.println("Top_Left");
-                //     break;
-                // case Bottom_Left:
-                //     Serial.println("Bottom_Left");
-                //     break;
-                // case Top_Right:
-                //     Serial.println("Top_Right");
-                //     break;
-                // case Bottom_Right:
-                //     Serial.println("Bottom_Right");
-                //     break;
-                // case Clockwise:
-                //     Serial.println("Clockwise");
-                //     break;
-                // case MotorLeft:
-                //     Serial.println("MotorLeft");
-                //     break;
-                // case MotorRight:
-                //     Serial.println("MotorRight");
-                //     break;
-                // case Moedl1:
-                //     Serial.println("Moedl1");
-                //     break;
-                // case Moedl2:
-                //     Serial.println("Moedl2");
-                //     break;
-                // case Moedl3:
-                //     Serial.println("Moedl3");
-                //     break;
-                // case Moedl4:
-                //     Serial.println("Moedl4");
-                //     break;
-                // default:
-                //     break;
-                // }
             }
         }
     }

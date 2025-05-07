@@ -14,8 +14,8 @@ const int Bottom_Left = 129;
 const int Top_Right = 72;
 const int Bottom_Right = 34;
 const int Stop = 0;
-// const int Contrarotate  = 172;
 const int Clockwise = 83;
+const int Counterclockwise = 172;
 const int Moedl1 = 25;
 const int Moedl2 = 26;
 const int Moedl3 = 27;
@@ -33,8 +33,8 @@ const int MotorCenter = 232;
     .server_port = 80, \
     .ctrl_port = ESP_HTTPD_DEF_CTRL_PORT, \
     .max_open_sockets = 7, \
-    .max_uri_handlers = 20, \
-    .max_resp_headers = 20, \
+    .max_uri_handlers = 21, \
+    .max_resp_headers = 21, \
     .backlog_conn = 5, \
     .lru_purge_enable = false, \
     .recv_wait_timeout = 5, \
@@ -169,7 +169,7 @@ static esp_err_t index_handler(httpd_req_t *req) {
 
   page += "<p align=center>";
   page += "<button style=background-color:lightgrey;width:120px;height:40px; onmousedown=getsend('left') onmouseup=getsend('stop') ontouchstart=getsend('left') ontouchend=getsend('stop')><b>Влево</b></button>&nbsp;";
-  page += "<button style=background-color:lightgrey;width:120px;height:40px; onmousedown=getsend('clockwise') onmouseup=getsend('stop') ontouchstart=getsend('clockwise') ontouchend=getsend('stop')><b>Разворот</b></button>&nbsp;";
+  page += "<button style=background-color:indianred;width:120px;height:40px onmousedown=getsend('stop') onmouseup=getsend('stop')><b>Стоп</b></button>&nbsp;";
   page += "<button style=background-color:lightgrey;width:120px;height:40px; onmousedown=getsend('right') onmouseup=getsend('stop') ontouchstart=getsend('right') ontouchend=getsend('stop')><b>Вправо</b></button>";
   page += "</p>";
 
@@ -180,6 +180,11 @@ static esp_err_t index_handler(httpd_req_t *req) {
   page += "</p>";
 
   page += "<p align=center>";
+  page += "<button style=background-color:lightgrey;width:120px;height:40px; onmousedown=getsend('counterclockwise') onmouseup=getsend('stop') ontouchstart=getsend('counterclockwise') ontouchend=getsend('stop')><b>Разворот влево</b></button>&nbsp;";
+  page += "<button style=background-color:lightgrey;width:120px;height:40px; onmousedown=getsend('clockwise') onmouseup=getsend('stop') ontouchstart=getsend('clockwise') ontouchend=getsend('stop')><b>Разворот вправо</b></button>&nbsp;";
+  page += "</p>";
+
+  page += "<p align=center>";
   page += "<button style=background-color:lightgrey;width:120px;height:40px onmousedown=getsend('motorleft') onmouseup=getsend('stop') ontouchstart=getsend('motorleft') ontouchend=getsend('stop') ><b>Смотр. налево</b></button>&nbsp;";
   page += "<button style=background-color:lightgrey;width:120px;height:40px onmousedown=getsend('motorcenter')><b>Смотр. прямо</b></button>&nbsp;";
   page += "<button style=background-color:lightgrey;width:120px;height:40px onmousedown=getsend('motorright') onmouseup=getsend('stop') ontouchstart=getsend('motorright') ontouchend=getsend('stop') ><b>Смотр. направо</b></button>";
@@ -187,7 +192,6 @@ static esp_err_t index_handler(httpd_req_t *req) {
 
   page += "<p align=center>";
   page += "<button style=background-color:yellow;width:120px;height:40px onmousedown=getsend('ledon')><b>Вкл. свет</b></button>&nbsp;";
-  page += "<button style=background-color:indianred;width:120px;height:40px onmousedown=getsend('stop') onmouseup=getsend('stop')><b>Стоп</b></button>&nbsp;";
   page += "<button style=background-color:yellow;width:120px;height:40px onmousedown=getsend('ledoff')><b>Выкл. свет</b></button>";
   page += "</p>";
 
@@ -280,6 +284,13 @@ static esp_err_t rightdown_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
+static esp_err_t counterclockwise_handler(httpd_req_t *req) {
+  txdata[1] = Counterclockwise;
+  Serial.write(txdata, 3);
+  Serial.println("counterclockwise");
+  httpd_resp_set_type(req, "text/html");
+  return httpd_resp_send(req, "OK", 2);
+}
 static esp_err_t clockwise_handler(httpd_req_t *req) {
   txdata[1] = Clockwise;
   Serial.write(txdata, 3);
@@ -301,7 +312,6 @@ static esp_err_t model2_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
-
 static esp_err_t model3_handler(httpd_req_t *req) {
   txdata[1] = Moedl3;
   Serial.write(txdata, 3);
@@ -309,7 +319,6 @@ static esp_err_t model3_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
-
 static esp_err_t model4_handler(httpd_req_t *req) {
   txdata[1] = Moedl4;
   Serial.write(txdata, 3);
@@ -317,7 +326,6 @@ static esp_err_t model4_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
-
 static esp_err_t motorleft_handler(httpd_req_t *req) {
   txdata[1] = MotorLeft;
   Serial.write(txdata, 3);
@@ -325,7 +333,6 @@ static esp_err_t motorleft_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
-
 static esp_err_t motorright_handler(httpd_req_t *req) {
   txdata[1] = MotorRight;
   Serial.write(txdata, 3);
@@ -333,7 +340,6 @@ static esp_err_t motorright_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, "OK", 2);
 }
-
 static esp_err_t motorcenter_handler(httpd_req_t *req) {
   txdata[1] = MotorCenter;
   Serial.write(txdata, 3);
@@ -453,6 +459,19 @@ void startCameraServer() {
     .uri = "/rightdown",
     .method = HTTP_GET,
     .handler = rightdown_handler,
+    .user_ctx = NULL
+#ifdef CONFIG_HTTPD_WS_SUPPORT
+    ,
+    .is_websocket = true,
+    .handle_ws_control_frames = false,
+    .supported_subprotocol = NULL
+#endif
+  };
+
+  httpd_uri_t counterclockwise_uri = {
+    .uri = "/counterclockwise",
+    .method = HTTP_GET,
+    .handler = counterclockwise_handler,
     .user_ctx = NULL
 #ifdef CONFIG_HTTPD_WS_SUPPORT
     ,
@@ -634,6 +653,7 @@ void startCameraServer() {
     httpd_register_uri_handler(camera_httpd, &leftdown_uri);
     httpd_register_uri_handler(camera_httpd, &rightup_uri);
     httpd_register_uri_handler(camera_httpd, &rightdown_uri);
+    httpd_register_uri_handler(camera_httpd, &counterclockwise_uri);
     httpd_register_uri_handler(camera_httpd, &clockwise_uri);
     httpd_register_uri_handler(camera_httpd, &model1_uri);
     httpd_register_uri_handler(camera_httpd, &model2_uri);
